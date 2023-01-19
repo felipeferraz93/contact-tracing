@@ -22,7 +22,13 @@ public with sharing class CTPersonController {
     }
 
     public static Person__c getPersonById(String personId){
-        return [SELECT Id, Name, Health_Status__c, Mobile__c, Status_Update_Date__c, Token__c FROM Person__C WHERE Id=:personId LIMIT 1];
+        List<Person__c> people = [SELECT Id, Name, Health_Status__c, Mobile__c, Status_Update_Date__c, Token__c FROM Person__C WHERE Id=:personId LIMIT 1];
+
+        if(people != null && people.size() > 0){
+            return people[0];
+        }
+
+        return null;
     }
 
 }
