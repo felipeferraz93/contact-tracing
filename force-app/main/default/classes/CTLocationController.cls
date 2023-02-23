@@ -20,4 +20,15 @@ public with sharing class CTLocationController {
 
         return null;
     }
+
+    public static Map<String,Integer> getStatusCount(){
+        Map<String,Integer> statusCountMap = new Map<String,Integer>();
+
+        for(AggregateResult ar : [SELECT Status__c, Count(Id) total FROM Location__c GROUP BY Status__c]){
+            String status = String.valueOf(ar.get('Status__c'));
+            Integer count = Integer.valueOf(ar.get('total'));
+            statusCountMap.put(status, count);
+        }
+        return statusCountMap;
+    }
 }
